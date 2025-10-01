@@ -20,7 +20,7 @@ interface Lawyer {
 
 interface LawyerSelectorProps {
   selectedLawyerId: string | null;
-  onLawyerSelect: (lawyerId: string | null) => void;
+  onLawyerSelect: (lawyerId: string | null, lawyerName?: string | null) => void;
   onClose: () => void;
 }
 
@@ -83,8 +83,8 @@ const LawyerSelector: React.FC<LawyerSelectorProps> = ({
     fetchLawyers();
   }, [searchTerm]);
 
-  const handleLawyerSelect = (lawyerId: string | null) => {
-    onLawyerSelect(lawyerId);
+  const handleLawyerSelect = (lawyerId: string | null, lawyerName?: string | null) => {
+    onLawyerSelect(lawyerId, lawyerName);
   };
 
   const handleConfirm = () => {
@@ -120,7 +120,7 @@ const LawyerSelector: React.FC<LawyerSelectorProps> = ({
         className={`cursor-pointer transition-colors ${
           selectedLawyerId === null ? 'ring-2 ring-blue-500 bg-blue-50' : 'hover:bg-gray-50'
         }`}
-        onClick={() => handleLawyerSelect(null)}
+        onClick={() => handleLawyerSelect(null, null)}
       >
         <CardContent className="p-4">
           <div className="flex items-center space-x-3">
@@ -140,7 +140,7 @@ const LawyerSelector: React.FC<LawyerSelectorProps> = ({
               <input
                 type="radio"
                 checked={selectedLawyerId === null}
-                onChange={() => handleLawyerSelect(null)}
+                onChange={() => handleLawyerSelect(null, null)}
                 className="h-4 w-4 text-blue-600"
               />
             </div>
@@ -167,7 +167,7 @@ const LawyerSelector: React.FC<LawyerSelectorProps> = ({
               className={`cursor-pointer transition-colors ${
                 selectedLawyerId === lawyer._id ? 'ring-2 ring-blue-500 bg-blue-50' : 'hover:bg-gray-50'
               }`}
-              onClick={() => handleLawyerSelect(lawyer._id)}
+              onClick={() => handleLawyerSelect(lawyer._id, lawyer.name)}
             >
               <CardContent className="p-4">
                 <div className="flex items-center space-x-3">
@@ -195,7 +195,7 @@ const LawyerSelector: React.FC<LawyerSelectorProps> = ({
                     <input
                       type="radio"
                       checked={selectedLawyerId === lawyer._id}
-                      onChange={() => handleLawyerSelect(lawyer._id)}
+                      onChange={() => handleLawyerSelect(lawyer._id, lawyer.name)}
                       className="h-4 w-4 text-blue-600"
                     />
                   </div>

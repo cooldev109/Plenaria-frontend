@@ -898,3 +898,4 @@ const LawyerCourses: React.FC = () => {
 };
 
 export default LawyerCourses;
+

@@ -738,3 +738,4 @@ const LawyerProjects: React.FC = () => {
 };
 
 export default LawyerProjects;
+

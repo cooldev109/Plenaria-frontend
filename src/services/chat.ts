@@ -129,3 +129,4 @@ export const completeConsultation = async (consultationId: string): Promise<Cons
   const data = await response.json();
   return data.data.consultation;
 };
+

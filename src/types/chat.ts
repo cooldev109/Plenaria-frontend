@@ -82,3 +82,4 @@ export interface MessageInput {
   attachments?: File[];
   replyTo?: string;
 }
+

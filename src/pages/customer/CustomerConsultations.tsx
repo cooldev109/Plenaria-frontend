@@ -56,6 +56,8 @@ const CustomerConsultations: React.FC = () => {
   });
   const [submittingRequest, setSubmittingRequest] = useState(false);
   const [selectedLawyerId, setSelectedLawyerId] = useState<string | null>(null);
+  const [selectedLawyerName, setSelectedLawyerName] = useState<string | null>(null);
+  const [isAnyLawyerSelected, setIsAnyLawyerSelected] = useState(false);
   const [showLawyerSelector, setShowLawyerSelector] = useState(false);
   
   // Chat state
@@ -199,6 +201,8 @@ const CustomerConsultations: React.FC = () => {
       // Reset form and close dialog
       setRequestData({ subject: '', description: '', priority: 'medium' });
       setSelectedLawyerId(null);
+      setSelectedLawyerName(null);
+      setIsAnyLawyerSelected(false);
       setIsRequestDialogOpen(false);
       
       // Refresh consultations
@@ -312,18 +316,24 @@ const CustomerConsultations: React.FC = () => {
                       className="w-full justify-start"
                     >
                       <User className="h-4 w-4 mr-2" />
-                      {selectedLawyerId 
-                        ? `Selected Lawyer` 
+                      {selectedLawyerId && selectedLawyerName
+                        ? selectedLawyerName
+                        : isAnyLawyerSelected
+                        ? (language === 'pt' ? 'Qualquer Advogado Disponível' : 'Any Available Lawyer')
                         : language === 'pt' 
                           ? 'Escolher Advogado (Opcional)'
                           : 'Choose Lawyer (Optional)'
                       }
                     </Button>
-                    {selectedLawyerId && (
+                    {(selectedLawyerId || isAnyLawyerSelected) && (
                       <p className="text-xs text-gray-500 mt-1">
-                        {language === 'pt' 
-                          ? 'Advogado específico selecionado'
-                          : 'Specific lawyer selected'
+                        {isAnyLawyerSelected
+                          ? (language === 'pt' 
+                              ? 'Primeiro advogado disponível será atribuído'
+                              : 'First available lawyer will be assigned')
+                          : (language === 'pt' 
+                              ? 'Advogado específico selecionado'
+                              : 'Specific lawyer selected')
                         }
                       </p>
                     )}
@@ -514,7 +524,11 @@ const CustomerConsultations: React.FC = () => {
           <div className="flex-1 overflow-hidden">
             <LawyerSelector
               selectedLawyerId={selectedLawyerId}
-              onLawyerSelect={setSelectedLawyerId}
+              onLawyerSelect={(lawyerId, lawyerName) => {
+                setSelectedLawyerId(lawyerId);
+                setSelectedLawyerName(lawyerName);
+                setIsAnyLawyerSelected(lawyerId === null);
+              }}
               onClose={() => setShowLawyerSelector(false)}
             />
           </div>

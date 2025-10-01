@@ -250,3 +250,4 @@ const ConsultationCard: React.FC<ConsultationCardProps> = ({
 };
 
 export default ConsultationCard;
+
